@@ -1,39 +1,26 @@
 import React from 'react';
 import { Link} from 'react-router-dom';
 
-import { useParams } from 'react-router-dom';
+import Movie from './Movie.js';
+
+import MovieCard from './MovieCard.js';
 
 const MovieList = props => {
-  return (
-    <div className="movie-list">
-      {props.match.params(movie => (
-        <MovieDetails key={movie.id} movie={movie} />
-      ))}
-    </div>
-  );
+
+  if(props.movies) {
+    return (
+      <div className="movie-list">
+        {props.movies.map(movie => (
+          <MovieCard movie={movie} addToSavedList = {props.addToSavedList}/>
+          //<Movie key={movie.id} movie={movie} />
+        ))}
+      </div>
+    );
+  }
+  else {
+    return <div>Loading...</div>
+  }
 }
 
-function MovieDetails({ movie }) {
-  const { title, director, metascore, stars } = movie;
-  return (
-    <div className="movie-card">
-       <Link to="/movies/:id"></Link>
-      <h2>{title}</h2>
-      <div className="movie-director">
-        Director: <em>{director}</em>
-      </div>
-      <div className="movie-metascore">
-        Metascore: <strong>{metascore}</strong>
-      </div>
-      <h3>Actors</h3>
-
-      {stars.map(star => (
-        <div key={star} className="movie-star">
-          {star}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default MovieList;
